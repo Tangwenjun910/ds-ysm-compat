@@ -88,7 +88,7 @@ function Get-Prop([string]$name, [string]$fallback) {
 
 $modId = Get-Prop "mod_id" "ds_ysm_compat"
 $modVersion = Get-Prop "mod_version" "1.0.0"
-$modName = Get-Prop "mod_name" "DS x YSM Compat"
+$modName = Get-Prop "mod_name" "Dragon Survival x YSM Compat"
 $modLicense = Get-Prop "mod_license" "MIT"
 $modLogo = if (Test-Path -LiteralPath (Join-Path $ProjectDir "src\main\resources\ds_ysm_compat_logo.png") -PathType Leaf) {
     'logoFile="ds_ysm_compat_logo.png"' + [Environment]::NewLine + 'logoBlur=false'

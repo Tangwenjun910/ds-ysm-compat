@@ -1,4 +1,6 @@
 {
+  "ds_ysm_compat.emote.playing": "播放中",
+  "ds_ysm_compat.emote.idle": "未播放",
   "ds_ysm_compat.configuration.title": "龙之生存 x 是史蒂夫吗 兼容补丁",
   "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml": "客户端设置",
   "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml.title": "龙之生存 x 是史蒂夫吗 兼容补丁",

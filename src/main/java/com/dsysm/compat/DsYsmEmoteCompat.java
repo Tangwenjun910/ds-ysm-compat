@@ -10,10 +10,12 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class DsYsmEmoteCompat {
     private static final String DS = "by.dragonsurvivalteam.dragonsurvival.";
@@ -49,7 +51,7 @@ public final class DsYsmEmoteCompat {
             final Map<String, String> labels = new LinkedHashMap<>();
             for (final Object emote : emotes(body)) {
                 final String slot = "ds_ysm_compat." + keys.size();
-                keys.put(slot, (String) emote.getClass().getMethod("key").invoke(emote));
+                keys.put(slot, emoteKey(emote));
                 labels.put(slot, ((Component) emote.getClass().getMethod("name").invoke(emote)).getString());
             }
             keys.put(STOP, "");
@@ -88,6 +90,11 @@ public final class DsYsmEmoteCompat {
     }
 
     public static void select(final String slot, final String emoteKey) {
+        if (STOP.equals(slot)) {
+            stopDragonEmotes();
+            return;
+        }
+
         final Player player = Minecraft.getInstance().player;
         if (player == null || !DsYsmHooks.isDragon(player)) {
             return;
@@ -97,19 +104,16 @@ public final class DsYsmEmoteCompat {
             if (!useDragonEmotes(player, body)) {
                 return;
             }
-            if (STOP.equals(slot)) {
-                final Object dragon = Class.forName(DRAGON_RENDERER).getMethod("getDragon", Player.class)
-                        .invoke(null, player);
-                if (dragon != null) {
-                    dragon.getClass().getMethod("stopAllEmotes").invoke(dragon);
-                    final Object packet = Class.forName(DS + "network.emotes.StopAllEmotes")
-                            .getConstructor(int.class).newInstance(player.getId());
-                    PacketDistributor.sendToServer((CustomPacketPayload) packet);
-                }
-                return;
-            }
             for (final Object emote : emotes(body)) {
-                if (emoteKey.equals(emote.getClass().getMethod("key").invoke(emote))) {
+                if (emoteKey.equals(emoteKey(emote))) {
+                    final Object dragon = getDragon(player);
+                    if (stopPlayingEmote(dragon, emoteKey)) {
+                        final Object packet = Class.forName(DS + "network.emotes.SyncEmote")
+                                .getConstructor(int.class, emote.getClass(), boolean.class)
+                                .newInstance(player.getId(), emote, true);
+                        PacketDistributor.sendToServer((CustomPacketPayload) packet);
+                        return;
+                    }
                     Class.forName(DRAGON_RENDERER).getMethod("getOrCreateDragon", Player.class).invoke(null, player);
                     Class.forName(DRAGON_SCREEN).getMethod("addEmote", String.class).invoke(null, emoteKey);
                     return;
@@ -118,6 +122,82 @@ public final class DsYsmEmoteCompat {
         } catch (final ReflectiveOperationException | RuntimeException | LinkageError exception) {
             logFailure(exception);
         }
+    }
+
+    private static void stopDragonEmotes() {
+        final Player player = Minecraft.getInstance().player;
+        if (player == null || !DsYsmHooks.isDragon(player)) {
+            return;
+        }
+        try {
+            final Object dragon = getDragon(player);
+            if (dragon == null) {
+                return;
+            }
+            dragon.getClass().getMethod("stopAllEmotes").invoke(dragon);
+            final Object packet = Class.forName(DS + "network.emotes.StopAllEmotes")
+                    .getConstructor(int.class).newInstance(player.getId());
+            PacketDistributor.sendToServer((CustomPacketPayload) packet);
+        } catch (final ReflectiveOperationException | RuntimeException | LinkageError exception) {
+            logFailure(exception);
+        }
+    }
+
+    public static Set<String> playingDragonEmoteKeys() {
+        final Player player = Minecraft.getInstance().player;
+        if (player == null) {
+            return Set.of();
+        }
+        try {
+            final Set<String> keys = new HashSet<>();
+            for (final Object emote : playingEmotes(getDragon(player))) {
+                if (emote != null) {
+                    keys.add(emoteKey(emote));
+                }
+            }
+            return keys;
+        } catch (final ReflectiveOperationException | RuntimeException | LinkageError exception) {
+            logFailure(exception);
+            return Set.of();
+        }
+    }
+
+    public static boolean stopSyncedEmote(final Player player, final Object emote) {
+        if (emote == null) {
+            return false;
+        }
+        try {
+            // Dragon Survival compares object identity, but a network packet reconstructs the emote.
+            return stopPlayingEmote(getDragon(player), emoteKey(emote));
+        } catch (final ReflectiveOperationException | RuntimeException | LinkageError exception) {
+            logFailure(exception);
+            return false;
+        }
+    }
+
+    private static boolean stopPlayingEmote(final Object dragon, final String key)
+            throws ReflectiveOperationException {
+        final Object[] playing = playingEmotes(dragon);
+        for (int slot = 0; slot < playing.length; slot++) {
+            if (playing[slot] != null && key.equals(emoteKey(playing[slot]))) {
+                dragon.getClass().getMethod("stopEmote", int.class).invoke(dragon, slot);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static Object getDragon(final Player player) throws ReflectiveOperationException {
+        return Class.forName(DRAGON_RENDERER).getMethod("getDragon", Player.class).invoke(null, player);
+    }
+
+    private static Object[] playingEmotes(final Object dragon) throws ReflectiveOperationException {
+        return dragon == null ? new Object[0]
+                : (Object[]) dragon.getClass().getMethod("getCurrentlyPlayingEmotes").invoke(dragon);
+    }
+
+    private static String emoteKey(final Object emote) throws ReflectiveOperationException {
+        return (String) emote.getClass().getMethod("key").invoke(emote);
     }
 
     private static boolean useDragonEmotes(final Player player, final Object body)

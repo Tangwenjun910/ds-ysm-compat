@@ -1,4 +1,6 @@
 {
+  "ds_ysm_compat.emote.playing": "Playing",
+  "ds_ysm_compat.emote.idle": "Idle",
   "ds_ysm_compat.configuration.title": "Dragon Survival x Yes Steve Model Compat",
   "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml": "Client settings",
   "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml.title": "Dragon Survival x Yes Steve Model Compat",

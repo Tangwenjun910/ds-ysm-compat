@@ -9,23 +9,9 @@ displayName="${mod_name}"
 ${mod_logo}
 authors="Tangwenjun"
 description='''
-Lets Dragon Survival and Yes Steve Model coexist when both replace player rendering.
+Client-side compatibility for Dragon Survival and Yes Steve Model on NeoForge 1.21.1.
 
-Both mods cancel the vanilla player renderer to draw their own model, so the result used to
-depend on mod load order. This mod arbitrates between them using a client config option:
-
-- AUTO (default): Yes Steve Model renders only when it actually replaces the model; otherwise
-  Dragon Survival draws the dragon.
-- YSM_PRIORITY: Yes Steve Model always handles player rendering.
-- DS_PRIORITY: Dragon players are always rendered by Dragon Survival.
-
-The option is available in the NeoForge config screen (Mods -> this mod -> Config).
-
-Optionally, Dragon Survival flight can be reported to Yes Steve Model as creative flight, so YSM
-models play their `fly` animation while a dragon is flying (client config: dragon_flight_animation).
-
-Client side only. Built for NeoForge 1.21.1, Dragon Survival 2.0.7x and Yes Steve Model 2.6.5.
-If either Dragon Survival or Yes Steve Model is missing, the mixins disable themselves.
+Choose which mod renders your player. Fixes first-person arms and shadow placement, lets YSM play flight animations during dragon flight, and puts Dragon Survival emotes in YSM's wheel when the dragon model is active.
 '''
 
 [[mixins]]
