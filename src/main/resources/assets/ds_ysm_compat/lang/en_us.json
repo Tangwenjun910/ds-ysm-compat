@@ -1,0 +1,12 @@
+{
+  "ds_ysm_compat.configuration.title": "Dragon Survival x Yes Steve Model Compat",
+  "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml": "Client settings",
+  "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml.title": "Dragon Survival x Yes Steve Model Compat",
+  "ds_ysm_compat.configuration.render_mode": "Player render priority",
+  "ds_ysm_compat.configuration.render_mode.tooltip": "Who renders the player model when Dragon Survival and Yes Steve Model are both installed.\n\nAUTO: Yes Steve Model renders only when it actually replaces the model (its model is enabled and available, and you are in third person); otherwise Dragon Survival draws the dragon.\n\nYSM_PRIORITY: Yes Steve Model always handles player rendering (dragon players will show the YSM human model).\n\nDS_PRIORITY: Dragon players are always rendered by Dragon Survival.",
+  "ds_ysm_compat.configuration.render_mode.auto": "Auto",
+  "ds_ysm_compat.configuration.render_mode.ysm_priority": "Yes Steve Model first",
+  "ds_ysm_compat.configuration.render_mode.ds_priority": "Dragon Survival first",
+  "ds_ysm_compat.configuration.dragon_flight_animation": "Dragon flight plays YSM fly animation",
+  "ds_ysm_compat.configuration.dragon_flight_animation.tooltip": "When a Dragon Survival dragon is flying (wings spread and airborne), make Yes Steve Model treat it as creative flight so the model plays its `fly` animation instead of jump/fall animations."
+}

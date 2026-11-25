@@ -1,0 +1,12 @@
+{
+  "ds_ysm_compat.configuration.title": "龙之生存 x 是史蒂夫吗 兼容补丁",
+  "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml": "客户端设置",
+  "ds_ysm_compat.configuration.section.ds_ysm_compat.client.toml.title": "龙之生存 x 是史蒂夫吗 兼容补丁",
+  "ds_ysm_compat.configuration.render_mode": "玩家渲染优先级",
+  "ds_ysm_compat.configuration.render_mode.tooltip": "龙之生存和是史蒂夫吗同时安装时，由谁渲染玩家模型。\n\n自动：只有 Yes Steve Model 真的替换了模型（它的模型开关打开、模型可用且处于第三人称）时才用 YSM；否则由龙之生存画龙。\n\nYSM 优先：永远由 Yes Steve Model 接管玩家渲染（龙形态会显示 YSM 的人形模型）。\n\nDS 优先：龙形态永远由龙之生存渲染。",
+  "ds_ysm_compat.configuration.render_mode.auto": "自动",
+  "ds_ysm_compat.configuration.render_mode.ysm_priority": "YSM 优先",
+  "ds_ysm_compat.configuration.render_mode.ds_priority": "DS 优先",
+  "ds_ysm_compat.configuration.dragon_flight_animation": "龙飞行时播放 YSM 飞行动画",
+  "ds_ysm_compat.configuration.dragon_flight_animation.tooltip": "龙之生存的龙处于飞行状态（翅膀展开且离地）时，让 Yes Steve Model 判定为创造飞行，从而播放模型的 fly（创造飞行）动画，而不是跳跃/下落动画。"
+}
