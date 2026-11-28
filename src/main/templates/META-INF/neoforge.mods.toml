@@ -9,7 +9,7 @@ displayName="${mod_name}"
 ${mod_logo}
 authors="Tangwenjun"
 description='''
-Client-side compatibility for Dragon Survival and Yes Steve Model on NeoForge 1.21.1.
+Compatibility for Dragon Survival and Yes Steve Model on NeoForge 1.21.1, with optional server-side model preference sync.
 
 Choose which mod renders your player. Fixes first-person arms and shadow placement, lets YSM play flight animations during dragon flight, and puts Dragon Survival emotes in YSM's wheel when the dragon model is active.
 '''

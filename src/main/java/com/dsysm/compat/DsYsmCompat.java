@@ -20,6 +20,7 @@ public final class DsYsmCompat {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public DsYsmCompat(final IEventBus modEventBus, final ModContainer modContainer) {
+        modEventBus.addListener(DsYsmRenderSync::register);
         if (FMLEnvironment.dist.isClient()) {
             DsYsmClientSetup.register(modContainer);
         }

@@ -77,8 +77,11 @@ public final class DsYsmHooks {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderPlayerPreHighest(final RenderPlayerEvent.Pre event) {
+        if (!DsYsmMixinPlugin.isEnabled()) {
+            return;
+        }
         final Player player = event.getEntity();
-        final DsYsmConfig.RenderMode mode = DsYsmConfig.mode();
+        final DsYsmConfig.RenderMode mode = DsYsmRenderSync.modeFor(player);
 
         if (isFirstPersonBodyPass(player)) {
             if (mode == DsYsmConfig.RenderMode.DS_PRIORITY
@@ -101,13 +104,16 @@ public final class DsYsmHooks {
     // receiveCanceled = true：YSM 接管时会在 NORMAL 取消事件，这里必须仍然收到才能记录「YSM 已接管」
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void onRenderPlayerPreLowest(final RenderPlayerEvent.Pre event) {
+        if (!DsYsmMixinPlugin.isEnabled()) {
+            return;
+        }
         final Player player = event.getEntity();
 
         if (isFirstPersonBodyPass(player)) {
             return;
         }
 
-        final DsYsmConfig.RenderMode mode = DsYsmConfig.mode();
+        final DsYsmConfig.RenderMode mode = DsYsmRenderSync.modeFor(player);
 
         if (mode == DsYsmConfig.RenderMode.AUTO) {
             // 此时 YSM 的 NORMAL 监听器已经跑过：事件被取消 = YSM 接管了这名玩家。
@@ -135,7 +141,7 @@ public final class DsYsmHooks {
     }
 
     public static boolean shouldSkipDragonShadowOffset(final Player player) {
-        if (DsYsmConfig.mode() != DsYsmConfig.RenderMode.AUTO) {
+        if (DsYsmRenderSync.modeFor(player) != DsYsmConfig.RenderMode.AUTO) {
             return false;
         }
 
@@ -150,11 +156,11 @@ public final class DsYsmHooks {
      */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void suppressYsmModelForDragons(final RenderLivingEvent.Pre<?, ?> event) {
-        if (!(event.getEntity() instanceof Player player)) {
+        if (!DsYsmMixinPlugin.isEnabled() || !(event.getEntity() instanceof Player player)) {
             return;
         }
 
-        if (DsYsmConfig.mode() != DsYsmConfig.RenderMode.DS_PRIORITY && !isFirstPersonBodyPass(player)) {
+        if (DsYsmRenderSync.modeFor(player) != DsYsmConfig.RenderMode.DS_PRIORITY && !isFirstPersonBodyPass(player)) {
             return;
         }
 

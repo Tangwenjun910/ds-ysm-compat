@@ -29,6 +29,10 @@ public final class DsYsmMixinPlugin implements IMixinConfigPlugin {
     private static boolean enabled;
     private static boolean ysmEmoteWheelEnabled;
 
+    static boolean isEnabled() {
+        return enabled;
+    }
+
     @Override
     public void onLoad(final String mixinPackage) {
         enabled = false;

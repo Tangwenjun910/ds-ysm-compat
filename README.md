@@ -1,6 +1,6 @@
 # Dragon Survival x YSM Compat
 
-让龙之生存和 Yes Steve Model 在 NeoForge 1.21.1 中一起使用。纯客户端，默认根据当前可用的模型自动选择渲染方，也可以在配置里手动设置优先级。
+让龙之生存和 Yes Steve Model 在 NeoForge 1.21.1 中一起使用。客户端可单独安装，服务端可选装以同步玩家的模型偏好。
 
 ## 做了什么
 
@@ -52,6 +52,13 @@
 - `AUTO`：`DsYsmHooks` 在 `LOWEST` 调用 DS 的 `renderDragon`。YSM 接管玩家模型时，
   地面阴影使用原版位置。DS 画龙时使用龙模型的阴影偏移。
 
+## 联机同步
+
+服务器也安装本模组时，客户端会同步自己的 `render_mode`。其他安装了本模组的玩家会按你的选择显示你的角色。
+例如，你选龙生优先，别人就会优先看到你的龙模型。选自动时，仍由观看者客户端判断 YSM 模型是否可用。
+
+服务器或对方客户端未安装本模组时，观看者用自己的本地优先级。服务端无需为这个同步功能额外安装龙生或 YSM。
+
 ## 生效条件
 
 - 客户端、NeoForge 1.21.1；
@@ -68,7 +75,7 @@
 gradlew.bat build
 ```
 
-产物：`build/libs/ds_ysm_compat-1.0.0.jar`，丢进 `mods/` 即可。
+产物：`build/libs/ds_ysm_compat-1.0.1.jar`，丢进 `mods/` 即可。
 
 **离线备用**：本机访问 `maven.neoforged.net` 可能被 TLS 重置，Gradle 拉不到 NeoForge
 userdev 包时会失败。仓库里带了不依赖 Gradle 的构建脚本，直接用本机已安装的 NeoForge

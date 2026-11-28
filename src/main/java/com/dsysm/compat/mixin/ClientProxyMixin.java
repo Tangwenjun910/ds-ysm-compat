@@ -2,6 +2,7 @@ package com.dsysm.compat.mixin;
 
 import com.dsysm.compat.DsYsmConfig;
 import com.dsysm.compat.DsYsmEmoteCompat;
+import com.dsysm.compat.DsYsmRenderSync;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,7 +43,7 @@ public class ClientProxyMixin {
             remap = false
     )
     private void dsYsmCompat$pretendDragonWasNotRendered(final Player player, final CallbackInfoReturnable<Boolean> callback) {
-        if (DsYsmConfig.mode() == DsYsmConfig.RenderMode.YSM_PRIORITY) {
+        if (DsYsmRenderSync.modeFor(player) == DsYsmConfig.RenderMode.YSM_PRIORITY) {
             callback.setReturnValue(true);
         }
     }

@@ -87,7 +87,7 @@ function Get-Prop([string]$name, [string]$fallback) {
 }
 
 $modId = Get-Prop "mod_id" "ds_ysm_compat"
-$modVersion = Get-Prop "mod_version" "1.0.0"
+$modVersion = Get-Prop "mod_version" "1.0.1"
 $modName = Get-Prop "mod_name" "Dragon Survival x YSM Compat"
 $modLicense = Get-Prop "mod_license" "MIT"
 $modLogo = if (Test-Path -LiteralPath (Join-Path $ProjectDir "src\main\resources\ds_ysm_compat_logo.png") -PathType Leaf) {
@@ -110,6 +110,9 @@ $classpath = @(
     (Join-Path $LibrariesDir "org\ow2\asm\asm-tree\9.9.1\asm-tree-9.9.1.jar"),
     (Join-Path $LibrariesDir "com\mojang\logging\1.2.7\logging-1.2.7.jar"),
     (Join-Path $LibrariesDir "com\mojang\brigadier\1.3.10\brigadier-1.3.10.jar"),
+    (Join-Path $LibrariesDir "com\mojang\datafixerupper\8.0.16\datafixerupper-8.0.16.jar"),
+    (Join-Path $LibrariesDir "io\netty\netty-buffer\4.1.97.Final\netty-buffer-4.1.97.Final.jar"),
+    (Join-Path $LibrariesDir "io\netty\netty-common\4.1.97.Final\netty-common-4.1.97.Final.jar"),
     (Join-Path $LibrariesDir "org\joml\joml\1.10.5\joml-1.10.5.jar"),
     (Join-Path $LibrariesDir "org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar"),
     $DragonSurvivalJar,
